@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Perye</title>
   
-  
+  <subtitle>Perye</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://perye.github.io/"/>
