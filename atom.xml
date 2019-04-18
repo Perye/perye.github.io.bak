@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://perye.github.io/"/>
-  <updated>2019-04-18T05:32:58.000Z</updated>
+  <updated>2019-04-18T07:15:30.000Z</updated>
   <id>https://perye.github.io/</id>
   
   <author>
@@ -15,6 +15,41 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringBoot2.x 单元测试</title>
+    <link href="https://perye.github.io/2019/04/18/hou-duan/spring/springboot2.x-dan-yuan-ce-shi/"/>
+    <id>https://perye.github.io/2019/04/18/hou-duan/spring/springboot2.x-dan-yuan-ce-shi/</id>
+    <published>2019-04-18T07:15:00.000Z</published>
+    <updated>2019-04-18T07:15:30.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;一个 bug 被隐藏的时间越长，修复这个 bug 的代价就越大。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我曾经在 &lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="后端" scheme="https://perye.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+    
+      <category term="单元测试" scheme="https://perye.github.io/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="Java" scheme="https://perye.github.io/tags/Java/"/>
+    
+      <category term="Spring" scheme="https://perye.github.io/tags/Spring/"/>
+    
+      <category term="SpringBoot" scheme="https://perye.github.io/tags/SpringBoot/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>

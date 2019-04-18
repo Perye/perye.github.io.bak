@@ -295,11 +295,66 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             </div>
             <div class="tag-chips">
                 
+                
+                <a href="/tags/单元测试/" title="单元测试: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default " data-tagname="单元测试" style="background-color: #F9EBEA;">单元测试
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/Java/" title="Java: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default " data-tagname="Java" style="background-color: #F5EEF8;">Java
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/Spring/" title="Spring: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default " data-tagname="Spring" style="background-color: #D5F5E3;">Spring
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/SpringBoot/" title="SpringBoot: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default " data-tagname="SpringBoot" style="background-color: #E8F8F5;">SpringBoot
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
             </div>
         </div>
     </div>
 </div>
 
+    
+    <link rel="stylesheet" type="text/css" href="/libs/jqcloud/jqcloud.css">
+<style type="text/css">
+    #tag-wordcloud {
+        width: 100%;
+        height: 300px;
+    }
+</style>
+
+<div class="container" data-aos="fade-up">
+    <div class="card">
+        <div id="tag-wordcloud" class="card-content"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/libs/jqcloud/jqcloud-1.0.4.min.js"></script>
+<script type="text/javascript">
+    
+
+    $('#tag-wordcloud').jQCloud([{"text":"单元测试","weight":1,"link":"https://perye.github.io/tags/单元测试/"},{"text":"Java","weight":1,"link":"https://perye.github.io/tags/Java/"},{"text":"Spring","weight":1,"link":"https://perye.github.io/tags/Spring/"},{"text":"SpringBoot","weight":1,"link":"https://perye.github.io/tags/SpringBoot/"}], {
+        autoResize: true
+    });
+</script>
     
 
 </main>
@@ -310,7 +365,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">73</span>
+                <span class="white-color">2.8k</span>
             
 
             
