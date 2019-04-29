@@ -458,14 +458,14 @@ fastd">
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.5k
+                        2k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        6 分
+                        9 分
                     </div>
                     
                 
@@ -667,6 +667,136 @@ bind_addr #服务器ip绑定
 store_path_count #store_path(数字)有几个写几个
 store_path(数字) #设置几个储存地址写几个 从0开始
 </code></pre><h3 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h3><p>如果不是root 用户 你必须在除了cd的命令之外 全部加sudo<br>如果不是root 用户 编译和安装分开进行 先编译再安装<br>如果上传成功 但是nginx报错404 先检查mod_fastdfs.conf文件中的store_path0是否一致<br>如果nginx无法访问 先检查防火墙 和 mod_fastdfs.conf文件tracker_server是否一致<br>如果不是在/usr/local/src文件夹下安装 可能会编译出错</p>
+<h2 id="API接口"><a href="#API接口" class="headerlink" title="API接口"></a>API接口</h2><h3 id="使用SpringBoot集成FastDFS"><a href="#使用SpringBoot集成FastDFS" class="headerlink" title="使用SpringBoot集成FastDFS"></a>使用SpringBoot集成FastDFS</h3><p>添加依赖</p>
+<pre><code>&lt;dependency&gt;  
+    &lt;groupId&gt;com.github.tobato&lt;/groupId&gt;  
+    &lt;artifactId&gt;fastdfs-client&lt;/artifactId&gt;
+    &lt;version&gt;1.26.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h3 id="导入配置"><a href="#导入配置" class="headerlink" title="导入配置"></a>导入配置</h3><pre class=" language-Java"><code class="language-Java">@Configuration
+@Import(FdfsClientConfig.class)
+// 解决jmx重复注册bean的问题
+@EnableMBeanExport(registration = RegistrationPolicy.IGNORE_EXISTING)
+public class ComponetImport {
+    // 导入依赖组件
+}
+
+</code></pre>
+<h3 id="封装FastDFS上传工具类"><a href="#封装FastDFS上传工具类" class="headerlink" title="封装FastDFS上传工具类"></a>封装FastDFS上传工具类</h3><pre class=" language-Java"><code class="language-Java">@Component
+public class FastDFSClient {
+    private final Logger logger = LoggerFactory.getLogger(FastDFSClient.class);
+
+    @Autowired
+    private FastFileStorageClient storageClient;
+
+    @Autowired
+    private FdfsWebServer fdfsWebServer;
+
+    /**
+     * 上传文件
+     * @param file 文件对象
+     * @return 文件访问地址
+     * @throws IOException
+     */
+    public String uploadFile(MultipartFile file) throws IOException {
+        StorePath storePath = storageClient.uploadFile(file.getInputStream(),file.getSize(), FilenameUtils.getExtension(file.getOriginalFilename()),null);
+        return getResAccessUrl(storePath);
+    }
+
+    /**
+     * 上传文件
+     * @param file 文件对象
+     * @return 文件访问地址
+     * @throws IOException
+     */
+    public String uploadFile(File file) throws IOException {
+        FileInputStream inputStream = new FileInputStream (file);
+        StorePath storePath = storageClient.uploadFile(inputStream,file.length(), FilenameUtils.getExtension(file.getName()),null);
+        return getResAccessUrl(storePath);
+    }
+
+    /**
+     * 将一段字符串生成一个文件上传
+     * @param content 文件内容
+     * @param fileExtension
+     * @return
+     */
+    public String uploadFile(String content, String fileExtension) {
+        byte[] buff = content.getBytes(Charset.forName("UTF-8"));
+        ByteArrayInputStream stream = new ByteArrayInputStream(buff);
+        StorePath storePath = storageClient.uploadFile(stream,buff.length, fileExtension,null);
+        return getResAccessUrl(storePath);
+    }
+
+    // 封装图片完整URL地址
+    private String getResAccessUrl(StorePath storePath) {
+        String fileUrl = fdfsWebServer.getWebServerUrl() + storePath.getFullPath();
+        return fileUrl;
+    }
+
+    /**
+     * 下载文件
+     * @param fileUrl 文件url
+     * @return
+     */
+    public byte[]  download(String fileUrl) {
+        String group = fileUrl.substring(0, fileUrl.indexOf("/"));
+        String path = fileUrl.substring(fileUrl.indexOf("/") + 1);
+        byte[] bytes = storageClient.downloadFile(group, path, new DownloadByteArray());
+        return bytes;
+    }
+
+    /**
+     * 删除文件
+     * @param fileUrl 文件访问地址
+     * @return
+     */
+    public void deleteFile(String fileUrl) {
+        if (StringUtils.isEmpty(fileUrl)) {
+            return;
+        }
+        try {
+            StorePath storePath = StorePath.praseFromUrl(fileUrl);
+            storageClient.deleteFile(storePath.getGroup(), storePath.getPath());
+        } catch (FdfsUnsupportStorePathException e) {
+            logger.warn(e.getMessage());
+        }
+    }
+}
+
+</code></pre>
+<h3 id="控制层"><a href="#控制层" class="headerlink" title="控制层"></a>控制层</h3><pre><code>@RestController
+@RequestMapping(&quot;/fdfs&quot;)
+public class FastDFSController {
+    @Autowired
+    private FastDFSClient fdfsClient;
+
+    /**
+     * 文件上传
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(&quot;/upload&quot;)
+    public Map&lt;String,Object&gt; upload(MultipartFile file) throws Exception{
+
+        String url = fdfsClient.uploadFile(file);
+
+        String filename = file.getOriginalFilename();
+        url = url + &quot;?attname=&quot;+filename;
+        Map&lt;String,Object&gt; result = new HashMap&lt;&gt;();
+        result.put(&quot;code&quot;, 200);
+        result.put(&quot;msg&quot;, &quot;上传成功&quot;);
+        result.put(&quot;url&quot;, url);
+
+        return result;
+    }
+
+}
+
+</code></pre><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="https://i.loli.net/2019/04/29/5cc6cebd3758e.png" alt></p>
+<p>这里显示原文件名需要nginx配置<br><img src="https://i.loli.net/2019/04/29/5cc6cf27b98c6.png" alt></p>
+<h3 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h3><p>此外还存在个问题待解决：相同文件多次上传占用空间大，可通过比较md5值。</p>
 
             </div>
             <hr>
@@ -1111,7 +1241,7 @@ Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前�
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">4.9k</span>
+                <span class="white-color">5.4k</span>
             
 
             
