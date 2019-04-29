@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://perye.github.io/"/>
-  <updated>2019-04-29T03:33:58.000Z</updated>
+  <updated>2019-04-29T07:21:23.000Z</updated>
   <id>https://perye.github.io/</id>
   
   <author>
@@ -15,6 +15,41 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>搭建FastDFS+Nginx文件服务器</title>
+    <link href="https://perye.github.io/2019/04/29/linux/da-jian-fastdfs-nginx-wen-jian-fu-wu-qi/"/>
+    <id>https://perye.github.io/2019/04/29/linux/da-jian-fastdfs-nginx-wen-jian-fu-wu-qi/</id>
+    <published>2019-04-29T06:38:00.000Z</published>
+    <updated>2019-04-29T07:21:23.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;搭建FastDFS+Nginx文件服务器&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;环境准备&quot;&gt;&lt;a href=&quot;#环境准备&quot; class=&quot;headerlink&quot; title=&quot;环境准备&quot;&gt;&lt;/a&gt;环境准备&lt;/h2&gt;&lt;h3
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="https://perye.github.io/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="https://perye.github.io/tags/Linux/"/>
+    
+      <category term="Centos7" scheme="https://perye.github.io/tags/Centos7/"/>
+    
+      <category term="FastDFS" scheme="https://perye.github.io/tags/FastDFS/"/>
+    
+      <category term="Nginx" scheme="https://perye.github.io/tags/Nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>使用Docker一键搭建FastDFS+Nginx分布式文件服务器</title>
@@ -45,11 +80,11 @@
     
       <category term="Centos7" scheme="https://perye.github.io/tags/Centos7/"/>
     
-      <category term="docker" scheme="https://perye.github.io/tags/docker/"/>
-    
       <category term="FastDFS" scheme="https://perye.github.io/tags/FastDFS/"/>
     
       <category term="Nginx" scheme="https://perye.github.io/tags/Nginx/"/>
+    
+      <category term="docker" scheme="https://perye.github.io/tags/docker/"/>
     
   </entry>
   
@@ -85,28 +120,6 @@
       <category term="Spring" scheme="https://perye.github.io/tags/Spring/"/>
     
       <category term="SpringBoot" scheme="https://perye.github.io/tags/SpringBoot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://perye.github.io/2019/04/18/hello-world/"/>
-    <id>https://perye.github.io/2019/04/18/hello-world/</id>
-    <published>2019-04-18T05:32:58.000Z</published>
-    <updated>2019-04-18T05:32:58.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
-        
-      
-    
-    </summary>
-    
     
   </entry>
   
