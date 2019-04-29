@@ -4,6 +4,39 @@
   
     
     <entry>
+      <title>使用Docker一键搭建FastDFS+Nginx分布式文件服务器</title>
+      <link href="/2019/04/29/linux/docker/shi-yong-docker-yi-jian-da-jian-fastdfs-nginx-fen-bu-shi-wen-jian-fu-wu-qi/"/>
+      <url>/2019/04/29/linux/docker/shi-yong-docker-yi-jian-da-jian-fastdfs-nginx-fen-bu-shi-wen-jian-fu-wu-qi/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>使用Docker一键搭建FastDFS+Nginx分布式文件服务器</p></blockquote><h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><p>1.Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。<br>通过 uname -r 命令查看你当前的内核版本<br><code>uname -r</code>  </p><p><img src="/2019/04/29/linux/docker/shi-yong-docker-yi-jian-da-jian-fastdfs-nginx-fen-bu-shi-wen-jian-fu-wu-qi/file/QQ20190429-101836.png" alt="QQ20190429-101836.png"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Centos7 </tag>
+            
+            <tag> docker </tag>
+            
+            <tag> FastDFS </tag>
+            
+            <tag> Nginx </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SpringBoot2.x 单元测试</title>
       <link href="/2019/04/18/hou-duan/spring/springboot2.x-dan-yuan-ce-shi/"/>
       <url>/2019/04/18/hou-duan/spring/springboot2.x-dan-yuan-ce-shi/</url>
@@ -20,9 +53,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> 单元测试 </tag>
+            
+            <tag> Java </tag>
             
             <tag> Spring </tag>
             

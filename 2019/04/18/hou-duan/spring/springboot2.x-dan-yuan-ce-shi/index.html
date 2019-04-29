@@ -264,7 +264,7 @@
 <script src="/libs/cryptojs/crypto-js.min.js"></script>
 <script>
     (function() {
-        let pwd = 'e0bc60c82713f64ef8a57c0c40d02ce24fd0141d5cc3086259c19b1e62a62bea';
+        let pwd = '';
         if (pwd && pwd.length > 0) {
             if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
                 alert('密码错误，将返回主页！');
@@ -394,12 +394,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Java/" target="_blank">
-                                <span class="chip bg-color">Java</span>
-                            </a>
-                        
                             <a href="/tags/单元测试/" target="_blank">
                                 <span class="chip bg-color">单元测试</span>
+                            </a>
+                        
+                            <a href="/tags/Java/" target="_blank">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
                             <a href="/tags/Spring/" target="_blank">
@@ -1169,56 +1169,58 @@
         
         <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/04/18/hou-duan/spring/springboot2.x-dan-yuan-ce-shi/">
+                <a href="/2019/04/29/linux/docker/shi-yong-docker-yi-jian-da-jian-fastdfs-nginx-fen-bu-shi-wen-jian-fu-wu-qi/">
                     <div class="card-image">
                         
-                        <img src="http://static.blinkfox.com/20190302.png" class="responsive-img" alt="SpringBoot2.x 单元测试">
+                        <img src="https://i.loli.net/2019/04/29/5cc65ca291f07.jpg" class="responsive-img" alt="使用Docker一键搭建FastDFS+Nginx分布式文件服务器">
                         
-                        <span class="card-title">SpringBoot2.x 单元测试</span>
+                        <span class="card-title">使用Docker一键搭建FastDFS+Nginx分布式文件服务器</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
-一个 bug 被隐藏的时间越长，修复这个 bug 的代价就越大。
+使用Docker一键搭建FastDFS+Nginx分布式文件服务器
 
-我曾经在 单元测试指南 一文中写到过单元测试的必要性和 Java 单元测试相关的工具及方法。单元测试能帮助我们在早期就规避、发现和修复很多不易察觉的 bug 和漏洞，而且</div>
+安装docker1.Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 un</div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-18
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-29
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/后端/" class="post-category" target="_blank">
-                                    后端
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java/" target="_blank">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
-                    <a href="/tags/单元测试/" target="_blank">
-                        <span class="chip bg-color">单元测试</span>
+                    <a href="/tags/Centos7/" target="_blank">
+                        <span class="chip bg-color">Centos7</span>
                     </a>
                     
-                    <a href="/tags/Spring/" target="_blank">
-                        <span class="chip bg-color">Spring</span>
+                    <a href="/tags/docker/" target="_blank">
+                        <span class="chip bg-color">docker</span>
                     </a>
                     
-                    <a href="/tags/SpringBoot/" target="_blank">
-                        <span class="chip bg-color">SpringBoot</span>
+                    <a href="/tags/FastDFS/" target="_blank">
+                        <span class="chip bg-color">FastDFS</span>
+                    </a>
+                    
+                    <a href="/tags/Nginx/" target="_blank">
+                        <span class="chip bg-color">Nginx</span>
                     </a>
                     
                 </div>
@@ -1368,7 +1370,7 @@
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">3k</span>
+                <span class="white-color">3.1k</span>
             
 
             
