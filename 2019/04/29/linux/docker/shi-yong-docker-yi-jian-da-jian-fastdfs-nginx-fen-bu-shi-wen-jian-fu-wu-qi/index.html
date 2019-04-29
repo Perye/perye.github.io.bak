@@ -8,7 +8,8 @@
     <meta name="description" content="
 使用Docker一键搭建FastDFS+Nginx分布式文件服务器
 
-安装docker1.Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 un">
+安装docker
+Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 una">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -441,14 +442,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        75
+                        443
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        2 分
                     </div>
                     
                 
@@ -467,8 +468,22 @@
                 <blockquote>
 <p>使用Docker一键搭建FastDFS+Nginx分布式文件服务器</p>
 </blockquote>
-<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><p>1.Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。<br>通过 uname -r 命令查看你当前的内核版本<br><code>uname -r</code>  </p>
-<p><img src="/2019/04/29/linux/docker/shi-yong-docker-yi-jian-da-jian-fastdfs-nginx-fen-bu-shi-wen-jian-fu-wu-qi/file/QQ20190429-101836.png" alt="QQ20190429-101836.png"></p>
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><ol>
+<li>Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 uname -r 命令查看你当前的内核版本<br><code>$ uname -r</code><br><img src="https://i.loli.net/2019/04/29/5cc6629e1021a.png" alt="QQ20190429-101836.png"></li>
+<li>使用 root 权限登录 Centos。确保 yum 包更新到最新。<br><code>$ sudo yum update</code>  </li>
+<li>卸载旧版本(如果安装过旧版本的话)<br><code>$ sudo yum remove docker  docker-common docker-selinux docker-engine</code></li>
+<li>安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的<br><code>$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2</code></li>
+<li>设置yum源<br><code>$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</code>  </li>
+<li>可以查看所有仓库中所有docker版本，并选择特定版本安装<br><code>$ yum list docker-ce --showduplicates | sort -r</code><br><img src="https://i.loli.net/2019/04/29/5cc66577664b1.png" alt="QQ20190429-104558.png"></li>
+<li>安装docker<br><code>$ sudo yum install docker-ce  #由于repo中默认只开启stable仓库，故这里安装的是最新稳定版18.09.5</code><br><code>$ sudo yum install &lt;FQPN&gt;  # 例如：sudo yum install docker-ce-18.09.5</code></li>
+<li>启动并加入开机启动<br><code>$ sudo systemctl start docker</code><br><code>$ sudo systemctl enable docker</code></li>
+<li>验证安装是否成功(有client和service两部分表示docker安装启动都成功了)<br><code>docker version</code><br><img src="https://i.loli.net/2019/04/29/5cc666e6ed435.png" alt="QQ20190429-105206.png"></li>
+</ol>
+<h2 id="搭建FastDFS"><a href="#搭建FastDFS" class="headerlink" title="搭建FastDFS"></a>搭建FastDFS</h2><h3 id="拉取镜像并启动"><a href="#拉取镜像并启动" class="headerlink" title="拉取镜像并启动"></a>拉取镜像并启动</h3><p><code>docker run -d --restart=always --privileged=true --net=host --name=fastdfs -e IP=123.206.175.55 -e WEB_PORT=80 -v ${HOME}/fastdfs:/var/local/fdfs registry.cn-beijing.aliyuncs.com/tianzuo/fastdfs</code><br>其中-v ${HOME}/fastdfs:/var/local/fdfs是指：将${HOME}/fastdfs这个目录挂载到容器里的/var/local/fdfs这个目录里。所以上传的文件将被持久化到${HOME}/fastdfs/storage/data里，IP 后面是自己的服务器公网ip或者虚拟机ip，-e WEB_PORT=80 指定nginx端口</p>
+<p><img src="https://i.loli.net/2019/04/29/5cc66841b0b5a.png" alt="QQ20190429-105752.png"></p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><code>docker exec -it fastdfs /bin/bash</code>  </p>
+<p><code>echo &quot;Hello FastDFS!&quot;&gt;index.html</code>  </p>
+<p><code>fdfs_test /etc/fdfs/client.conf upload index.html</code></p>
 
             </div>
             <hr>
@@ -676,7 +691,8 @@
                     <div class="summary block-with-text">
 使用Docker一键搭建FastDFS+Nginx分布式文件服务器
 
-安装docker1.Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 un</div>
+安装docker
+Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 una</div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-29
@@ -890,7 +906,7 @@
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">3.1k</span>
+                <span class="white-color">3.5k</span>
             
 
             
