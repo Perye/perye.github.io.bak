@@ -1124,7 +1124,7 @@
                     </span>
                     <a href="https://perye.github.io" class="b-link-green">Perye</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/04/18/hou-duan/spring/springboot2.x-dan-yuan-ce-shi/" class="b-link-green">SpringBoot2.x 单元测试</a>
+                    <a href="/2019/04/18/java/spring/springboot2.x-dan-yuan-ce-shi/" class="b-link-green">SpringBoot2.x 单元测试</a>
                 </p>
             </div>
         </div>
@@ -1235,7 +1235,7 @@ Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前�
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/01/25/hou-duan/java/commons/yi-ge-ji-jian-de-java-ascii-biao-ge-sheng-cheng-ku/">
+                <a href="/2019/01/25/java/commons/yi-ge-ji-jian-de-java-ascii-biao-ge-sheng-cheng-ku/">
                     <div class="card-image">
                         
                         <img src="http://static.blinkfox.com/2019-01-25.jpg" class="responsive-img" alt="一个极简的 Java ASCII 表格生成库">
@@ -1286,6 +1286,43 @@ API简单易用
 </article>
 </div>
 
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: Perye<br />'
+            + '作者: 洪国栋<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
 
     </div>
     <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
