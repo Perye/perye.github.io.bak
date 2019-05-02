@@ -4,32 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="搭建FastDFS+Nginx文件服务器, perye">
+    <meta name="keywords" content="Docker连接Dockerhub, perye">
     <meta name="description" content="
-搭建FastDFS+Nginx文件服务器
+Docker连接Dockerhub
 
-环境准备使用的系统软件
-
-
-名称
-说明
-
-
-
-
-centos
-7.x
-
-
-libfatscommon
-FastDFS分离出的一些公用函数包
-
-
-FastDFS
-FastDFS本体
-
-
-fastd">
+安装docker
+Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 uname -r 命令查看你当前的内核">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -37,7 +17,7 @@ fastd">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>搭建FastDFS+Nginx文件服务器 | Perye</title>
+    <title>Docker连接Dockerhub | Perye</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -298,13 +278,13 @@ fastd">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/05/01/5cc877c711264.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/04/29/5cc65ca291f07.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        搭建FastDFS+Nginx文件服务器
+                        Docker连接Dockerhub
                     </div>
                 </div>
             </div>
@@ -423,12 +403,8 @@ fastd">
                                 <span class="chip bg-color">Centos7</span>
                             </a>
                         
-                            <a href="/tags/FastDFS/" target="_blank">
-                                <span class="chip bg-color">FastDFS</span>
-                            </a>
-                        
-                            <a href="/tags/Nginx/" target="_blank">
-                                <span class="chip bg-color">Nginx</span>
+                            <a href="/tags/docker/" target="_blank">
+                                <span class="chip bg-color">docker</span>
                             </a>
                         
                     </div>
@@ -458,14 +434,14 @@ fastd">
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        2k
+                        635
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        9 分
+                        2 分
                     </div>
                     
                 
@@ -482,322 +458,45 @@ fastd">
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <blockquote>
-<p>搭建FastDFS+Nginx文件服务器</p>
+<p>Docker连接Dockerhub</p>
 </blockquote>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="使用的系统软件"><a href="#使用的系统软件" class="headerlink" title="使用的系统软件"></a>使用的系统软件</h3><table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">centos</td>
-<td style="text-align:center">7.x</td>
-</tr>
-<tr>
-<td style="text-align:center">libfatscommon</td>
-<td style="text-align:center">FastDFS分离出的一些公用函数包</td>
-</tr>
-<tr>
-<td style="text-align:center">FastDFS</td>
-<td style="text-align:center">FastDFS本体</td>
-</tr>
-<tr>
-<td style="text-align:center">fastdfs-nginx-module</td>
-<td style="text-align:center">FastDFS和nginx的关联模块</td>
-</tr>
-<tr>
-<td style="text-align:center">nginx</td>
-<td style="text-align:center">nginx1.15.4</td>
-</tr>
-</tbody>
-</table>
-<h3 id="编译环境"><a href="#编译环境" class="headerlink" title="编译环境"></a>编译环境</h3><p><code>yum install git gcc gcc-c++ make automake autoconf libtool pcre pcre-devel zlib zlib-devel openssl-devel wget vim -y</code></p>
-<h3 id="磁盘目录"><a href="#磁盘目录" class="headerlink" title="磁盘目录"></a>磁盘目录</h3><table>
-<thead>
-<tr>
-<th style="text-align:center">说明</th>
-<th style="text-align:center">位置</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">所有安装包</td>
-<td style="text-align:center">/usr/local/src</td>
-</tr>
-<tr>
-<td style="text-align:center">数据存储位置</td>
-<td style="text-align:center">/home/dfs/</td>
-</tr>
-<tr>
-<td style="text-align:center">#这里我为了方便把日志什么的都放到了dfs</td>
-</tr>
-</tbody>
-</table>
-<p><code>mkdir /home/dfs #创建数据存储目录</code><br><code>cd /usr/local/src #切换到安装目录准备下载安装包</code>  </p>
-<h3 id="安装libfatscommon"><a href="#安装libfatscommon" class="headerlink" title="安装libfatscommon"></a>安装libfatscommon</h3><pre><code>git clone https://github.com/happyfish100/libfastcommon.git --depth 1
-cd libfastcommon/
-./make.sh &amp;&amp; ./make.sh install #编译安装
-</code></pre><h3 id="安装FastDFS"><a href="#安装FastDFS" class="headerlink" title="安装FastDFS"></a>安装FastDFS</h3><pre><code>cd ../ #返回上一级目录
-git clone https://github.com/happyfish100/fastdfs.git --depth 1
-cd fastdfs/
-./make.sh &amp;&amp; ./make.sh install #编译安装
-#配置文件准备
-cp /etc/fdfs/tracker.conf.sample /etc/fdfs/tracker.conf
-cp /etc/fdfs/storage.conf.sample /etc/fdfs/storage.conf
-cp /etc/fdfs/client.conf.sample /etc/fdfs/client.conf #客户端文件，测试用
-cp /usr/local/src/fastdfs/conf/http.conf /etc/fdfs/ #供nginx访问使用
-cp /usr/local/src/fastdfs/conf/mime.types /etc/fdfs/ #供nginx访问使用
-</code></pre><h3 id="安装fastdfs-nginx-module"><a href="#安装fastdfs-nginx-module" class="headerlink" title="安装fastdfs-nginx-module"></a>安装fastdfs-nginx-module</h3><pre><code>cd ../ #返回上一级目录
-git clone https://github.com/happyfish100/fastdfs-nginx-module.git --depth 1
-cp /usr/local/src/fastdfs-nginx-module/src/mod_fastdfs.conf /etc/fdfs
-</code></pre><h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><pre><code>wget http://nginx.org/download/nginx-1.15.4.tar.gz #下载nginx压缩包
-tar -zxvf nginx-1.15.4.tar.gz #解压
-cd nginx-1.15.4/
-#添加fastdfs-nginx-module模块
-./configure --add-module=/usr/local/src/fastdfs-nginx-module/src/ 
-make &amp;&amp; make install #编译安装
-</code></pre><h2 id="单机部署"><a href="#单机部署" class="headerlink" title="单机部署"></a>单机部署</h2><h3 id="tracker配置"><a href="#tracker配置" class="headerlink" title="tracker配置"></a>tracker配置</h3><pre><code>#服务器ip为 192.168.52.1
-#我建议用ftp下载下来这些文件 本地修改
-vim /etc/fdfs/tracker.conf
-#需要修改的内容如下
-port=22122  # tracker服务器端口（默认22122,一般不修改）
-base_path=/home/dfs  # 存储日志和数据的根目录
-</code></pre><h3 id="storage配置"><a href="#storage配置" class="headerlink" title="storage配置"></a>storage配置</h3><pre><code>vim /etc/fdfs/storage.conf
-#需要修改的内容如下
-port=23000  # storage服务端口（默认23000,一般不修改）
-base_path=/home/dfs  # 数据和日志文件存储根目录
-store_path0=/home/dfs  # 第一个存储目录
-tracker_server=192.168.52.1:22122  # tracker服务器IP和端口
-http.server_port=8888  # http访问文件的端口(默认8888,看情况修改,和nginx中保持一致)
-</code></pre><h3 id="client测试"><a href="#client测试" class="headerlink" title="client测试"></a>client测试</h3><pre><code>vim /etc/fdfs/client.conf
-#需要修改的内容如下
-base_path=/home/dfs
-tracker_server=192.168.52.1:22122    #tracker服务器IP和端口
-#保存后测试,返回ID表示成功 如：group1/M00/00/00/xx.tar.gz
-fdfs_upload_file /etc/fdfs/client.conf /usr/local/src/nginx-1.15.4.tar.gz
-</code></pre><h3 id="配置nginx访问"><a href="#配置nginx访问" class="headerlink" title="配置nginx访问"></a>配置nginx访问</h3><pre><code>vim /etc/fdfs/mod_fastdfs.conf
-#需要修改的内容如下
-tracker_server=192.168.52.1:22122  #tracker服务器IP和端口
-url_have_group_name=true
-store_path0=/home/dfs
-#配置nginx.config
-vim /usr/local/nginx/conf/nginx.conf
-#添加如下配置
-server {
-    listen       8888;    ## 该端口为storage.conf中的http.server_port相同
-    server_name  localhost;
-    location ~/group[0-9]/ {
-        ngx_fastdfs_module;
-    }
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html {
-    root   html;
-    }
-}
-#测试下载，用外部浏览器访问刚才已传过的nginx安装包,引用返回的ID
-http://192.168.52.1:8888/group1/M00/00/00/wKgAQ1pysxmAaqhAAA76tz-dVgg.tar.gz
-#弹出下载单机部署全部跑通
-</code></pre><h2 id="分布式部署"><a href="#分布式部署" class="headerlink" title="分布式部署"></a>分布式部署</h2><h3 id="tracker配置-1"><a href="#tracker配置-1" class="headerlink" title="tracker配置"></a>tracker配置</h3><pre><code>#服务器ip为 192.168.52.2,192.168.52.3,192.168.52.4
-#我建议用ftp下载下来这些文件 本地修改
-vim /etc/fdfs/tracker.conf
-#需要修改的内容如下
-port=22122  # tracker服务器端口（默认22122,一般不修改）
-base_path=/home/dfs  # 存储日志和数据的根目录
-</code></pre><h3 id="storage配置-1"><a href="#storage配置-1" class="headerlink" title="storage配置"></a>storage配置</h3><pre><code>vim /etc/fdfs/storage.conf
-#需要修改的内容如下
-port=23000  # storage服务端口（默认23000,一般不修改）
-base_path=/home/dfs  # 数据和日志文件存储根目录
-store_path0=/home/dfs  # 第一个存储目录
-tracker_server=192.168.52.2:22122  # 服务器1
-tracker_server=192.168.52.3:22122  # 服务器2
-tracker_server=192.168.52.4:22122  # 服务器3
-http.server_port=8888  # http访问文件的端口(默认8888,看情况修改,和nginx中保持一致)
-</code></pre><h3 id="client测试-1"><a href="#client测试-1" class="headerlink" title="client测试"></a>client测试</h3><pre><code>vim /etc/fdfs/client.conf
-#需要修改的内容如下
-base_path=/home/moe/dfs
-tracker_server=192.168.52.2:22122  # 服务器1
-tracker_server=192.168.52.3:22122  # 服务器2
-tracker_server=192.168.52.4:22122  # 服务器3
-#保存后测试,返回ID表示成功 如：group1/M00/00/00/xx.tar.gz
-fdfs_upload_file /etc/fdfs/client.conf /usr/local/src/nginx-1.15.4.tar.gz
-</code></pre><h3 id="配置nginx访问-1"><a href="#配置nginx访问-1" class="headerlink" title="配置nginx访问"></a>配置nginx访问</h3><pre><code>vim /etc/fdfs/mod_fastdfs.conf
-#需要修改的内容如下
-tracker_server=192.168.52.2:22122  # 服务器1
-tracker_server=192.168.52.3:22122  # 服务器2
-tracker_server=192.168.52.4:22122  # 服务器3
-url_have_group_name=true
-store_path0=/home/dfs
-#配置nginx.config
-vim /usr/local/nginx/conf/nginx.conf
-#添加如下配置
-server {
-    listen       8888;    ## 该端口为storage.conf中的http.server_port相同
-    server_name  localhost;
-    location ~/group[0-9]/ {
-        ngx_fastdfs_module;
-    }
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html {
-    root   html;
-    }
-}
-</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><pre><code>#不关闭防火墙的话无法使用
-systemctl stop firewalld.service #关闭
-systemctl restart firewalld.service #重启
-</code></pre><h3 id="tracker"><a href="#tracker" class="headerlink" title="tracker"></a>tracker</h3><pre><code>/etc/init.d/fdfs_trackerd start #启动tracker服务
-/etc/init.d/fdfs_trackerd restart #重启动tracker服务
-/etc/init.d/fdfs_trackerd stop #停止tracker服务
-chkconfig fdfs_trackerd on #自启动tracker服务
-</code></pre><h3 id="storage"><a href="#storage" class="headerlink" title="storage"></a>storage</h3><pre><code>/etc/init.d/fdfs_storaged start #启动storage服务
-/etc/init.d/fdfs_storaged restart #重动storage服务
-/etc/init.d/fdfs_storaged stop #停止动storage服务
-chkconfig fdfs_storaged on #自启动storage服务
-
-</code></pre><h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><pre><code>/usr/local/nginx/sbin/nginx #启动nginx
-/usr/local/nginx/sbin/nginx -s reload #重启nginx
-/usr/local/nginx/sbin/nginx -s stop #停止nginx
-</code></pre><h3 id="检测集群"><a href="#检测集群" class="headerlink" title="检测集群"></a>检测集群</h3><pre><code>/usr/bin/fdfs_monitor /etc/fdfs/storage.conf
-# 会显示会有几台服务器 有3台就会 显示 Storage 1-Storage 3的详细信息
-</code></pre><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><pre><code>tracker_server #有几台服务器写几个
-group_name #地址的名称的命名
-bind_addr #服务器ip绑定
-store_path_count #store_path(数字)有几个写几个
-store_path(数字) #设置几个储存地址写几个 从0开始
-</code></pre><h3 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h3><p>如果不是root 用户 你必须在除了cd的命令之外 全部加sudo<br>如果不是root 用户 编译和安装分开进行 先编译再安装<br>如果上传成功 但是nginx报错404 先检查mod_fastdfs.conf文件中的store_path0是否一致<br>如果nginx无法访问 先检查防火墙 和 mod_fastdfs.conf文件tracker_server是否一致<br>如果不是在/usr/local/src文件夹下安装 可能会编译出错</p>
-<h2 id="API接口"><a href="#API接口" class="headerlink" title="API接口"></a>API接口</h2><h3 id="使用SpringBoot集成FastDFS"><a href="#使用SpringBoot集成FastDFS" class="headerlink" title="使用SpringBoot集成FastDFS"></a>使用SpringBoot集成FastDFS</h3><p>添加依赖</p>
-<pre><code>&lt;dependency&gt;  
-    &lt;groupId&gt;com.github.tobato&lt;/groupId&gt;  
-    &lt;artifactId&gt;fastdfs-client&lt;/artifactId&gt;
-    &lt;version&gt;1.26.3&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><h3 id="导入配置"><a href="#导入配置" class="headerlink" title="导入配置"></a>导入配置</h3><pre class=" language-Java"><code class="language-Java">@Configuration
-@Import(FdfsClientConfig.class)
-// 解决jmx重复注册bean的问题
-@EnableMBeanExport(registration = RegistrationPolicy.IGNORE_EXISTING)
-public class ComponetImport {
-    // 导入依赖组件
-}
-
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><ol>
+<li>Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 uname -r 命令查看你当前的内核版本<br><code>$ uname -r</code><br><img src="https://i.loli.net/2019/04/29/5cc6629e1021a.png" alt></li>
+<li>使用 root 权限登录 Centos。确保 yum 包更新到最新。<br><code>$ sudo yum update</code>  </li>
+<li>卸载旧版本(如果安装过旧版本的话)<br><code>$ sudo yum remove docker  docker-common docker-selinux docker-engine</code></li>
+<li>安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的<br><code>$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2</code></li>
+<li>设置yum源<br><code>$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</code>  </li>
+<li>可以查看所有仓库中所有docker版本，并选择特定版本安装<br><code>$ yum list docker-ce --showduplicates | sort -r</code><br><img src="https://i.loli.net/2019/04/29/5cc66577664b1.png" alt></li>
+<li>安装docker<br><code>$ sudo yum install docker-ce  #由于repo中默认只开启stable仓库，故这里安装的是最新稳定版18.09.5</code><br><code>$ sudo yum install &lt;FQPN&gt;  # 例如：sudo yum install docker-ce-18.09.5</code></li>
+<li>启动并加入开机启动<br><code>$ sudo systemctl start docker</code><br><code>$ sudo systemctl enable docker</code></li>
+<li>验证安装是否成功(有client和service两部分表示docker安装启动都成功了)<br><code>docker version</code><br><img src="https://i.loli.net/2019/04/29/5cc666e6ed435.png" alt></li>
+</ol>
+<h2 id="创建镜像"><a href="#创建镜像" class="headerlink" title="创建镜像"></a>创建镜像</h2><p>在这里使用Dockerfile的方式建立一个image。它可以在一个镜像的基础上，去构建另一个镜像。首先我们拉取一个centos的镜像。在这里创建一个简单的打印hello world的镜像。  </p>
+<pre><code>docker pull centos
+</code></pre><p>然后，在本地创建一个Dockerfile文件，让它在这个centos的基础上去输出一个hello world 。  </p>
+<pre><code>vim Dockerfile
+</code></pre><p><img src="https://i.loli.net/2019/05/02/5ccac7d1596cd.png" alt></p>
+<p>现在通过docker build生成一个新的镜像，-t可以指定新镜像的名字  . 表示在当前目录下.   </p>
+<pre><code>docker build -t hongguodong/hello-world .
+</code></pre><p>接下来可以docker images查看本地镜像</p>
+<pre><code>docker images
+</code></pre><p>最后docker run执行这个镜像，这时候生成一个新容器，我们可以对这个容器进行操作。   </p>
+<pre><code>docker run hongguodong/hello-world
+</code></pre><p>给镜像打标签<br>修改标签：docker tag IMAGEID(镜像id) REPOSITORY:TAG（仓库：标签）</p>
+<pre><code>docker tag e00a58a30228 hongguodong/hello-world:v1
+</code></pre><p>（注：上面是给镜像修改tag，下面是给镜像打上标签之后才能对镜像进行push）</p>
+<p>给镜像打tag 标签：</p>
+<p>docker tag <existing-image>  <hub-user>/<repo-name>[:<tag>]  #tag不指定默认为latest</tag></repo-name></hub-user></existing-image></p>
+<p>hub-user是docker hub的账户名</p>
+<p>repo-name就是第一步创建时候的仓库名称</p>
+<p>给镜像打上标签之后才能push</p>
+<h2 id="push镜像"><a href="#push镜像" class="headerlink" title="push镜像"></a>push镜像</h2><p>登录docker hub账号</p>
+<p>使用第一步创建的账号，在本地登录</p>
+<pre><code>docker login
+</code></pre><p>输入账号密码，输出login success即可</p>
+<p>最后.   </p>
+<pre><code>docker push hongguodong/hello-world:v1
 </code></pre>
-<h3 id="封装FastDFS上传工具类"><a href="#封装FastDFS上传工具类" class="headerlink" title="封装FastDFS上传工具类"></a>封装FastDFS上传工具类</h3><pre class=" language-Java"><code class="language-Java">@Component
-public class FastDFSClient {
-    private final Logger logger = LoggerFactory.getLogger(FastDFSClient.class);
-
-    @Autowired
-    private FastFileStorageClient storageClient;
-
-    @Autowired
-    private FdfsWebServer fdfsWebServer;
-
-    /**
-     * 上传文件
-     * @param file 文件对象
-     * @return 文件访问地址
-     * @throws IOException
-     */
-    public String uploadFile(MultipartFile file) throws IOException {
-        StorePath storePath = storageClient.uploadFile(file.getInputStream(),file.getSize(), FilenameUtils.getExtension(file.getOriginalFilename()),null);
-        return getResAccessUrl(storePath);
-    }
-
-    /**
-     * 上传文件
-     * @param file 文件对象
-     * @return 文件访问地址
-     * @throws IOException
-     */
-    public String uploadFile(File file) throws IOException {
-        FileInputStream inputStream = new FileInputStream (file);
-        StorePath storePath = storageClient.uploadFile(inputStream,file.length(), FilenameUtils.getExtension(file.getName()),null);
-        return getResAccessUrl(storePath);
-    }
-
-    /**
-     * 将一段字符串生成一个文件上传
-     * @param content 文件内容
-     * @param fileExtension
-     * @return
-     */
-    public String uploadFile(String content, String fileExtension) {
-        byte[] buff = content.getBytes(Charset.forName("UTF-8"));
-        ByteArrayInputStream stream = new ByteArrayInputStream(buff);
-        StorePath storePath = storageClient.uploadFile(stream,buff.length, fileExtension,null);
-        return getResAccessUrl(storePath);
-    }
-
-    // 封装图片完整URL地址
-    private String getResAccessUrl(StorePath storePath) {
-        String fileUrl = fdfsWebServer.getWebServerUrl() + storePath.getFullPath();
-        return fileUrl;
-    }
-
-    /**
-     * 下载文件
-     * @param fileUrl 文件url
-     * @return
-     */
-    public byte[]  download(String fileUrl) {
-        String group = fileUrl.substring(0, fileUrl.indexOf("/"));
-        String path = fileUrl.substring(fileUrl.indexOf("/") + 1);
-        byte[] bytes = storageClient.downloadFile(group, path, new DownloadByteArray());
-        return bytes;
-    }
-
-    /**
-     * 删除文件
-     * @param fileUrl 文件访问地址
-     * @return
-     */
-    public void deleteFile(String fileUrl) {
-        if (StringUtils.isEmpty(fileUrl)) {
-            return;
-        }
-        try {
-            StorePath storePath = StorePath.praseFromUrl(fileUrl);
-            storageClient.deleteFile(storePath.getGroup(), storePath.getPath());
-        } catch (FdfsUnsupportStorePathException e) {
-            logger.warn(e.getMessage());
-        }
-    }
-}
-
-</code></pre>
-<h3 id="控制层"><a href="#控制层" class="headerlink" title="控制层"></a>控制层</h3><pre><code>@RestController
-@RequestMapping(&quot;/fdfs&quot;)
-public class FastDFSController {
-    @Autowired
-    private FastDFSClient fdfsClient;
-
-    /**
-     * 文件上传
-     * @param file
-     * @return
-     * @throws Exception
-     */
-    @PostMapping(&quot;/upload&quot;)
-    public Map&lt;String,Object&gt; upload(MultipartFile file) throws Exception{
-
-        String url = fdfsClient.uploadFile(file);
-
-        String filename = file.getOriginalFilename();
-        url = url + &quot;?attname=&quot;+filename;
-        Map&lt;String,Object&gt; result = new HashMap&lt;&gt;();
-        result.put(&quot;code&quot;, 200);
-        result.put(&quot;msg&quot;, &quot;上传成功&quot;);
-        result.put(&quot;url&quot;, url);
-
-        return result;
-    }
-
-}
-
-</code></pre><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="https://i.loli.net/2019/04/29/5cc6cebd3758e.png" alt></p>
-<p>这里显示原文件名需要nginx配置<br><img src="https://i.loli.net/2019/04/29/5cc6cf27b98c6.png" alt></p>
-<h3 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h3><p>此外还存在个问题待解决：相同文件多次上传占用空间大，可通过比较md5值。</p>
-
             </div>
             <hr>
 
@@ -944,7 +643,7 @@ public class FastDFSController {
                     </span>
                     <a href="https://perye.github.io" class="b-link-green">Perye</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/04/29/linux/da-jian-fastdfs-nginx-wen-jian-fu-wu-qi/" class="b-link-green">搭建FastDFS+Nginx文件服务器</a>
+                    <a href="/2019/04/29/linux/docker/docker-lian-jie-dockerhub/" class="b-link-green">Docker连接Dockerhub</a>
                 </p>
             </div>
         </div>
@@ -966,7 +665,7 @@ public class FastDFSController {
         repo: 'perye.github.io',
         owner: 'Perye',
         admin: "Perye",
-        id: '2019-04-29T14-38-00',
+        id: '2019-04-29T10-07-00',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -989,8 +688,7 @@ public class FastDFSController {
         
         <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
                 <a href="/2019/04/29/linux/da-jian-fastdfs-nginx-wen-jian-fu-wu-qi/">
                     <div class="card-image">
@@ -1027,9 +725,9 @@ FastDFS本体
 
 fastd</div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-29
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-29
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -1042,7 +740,6 @@ fastd</div>
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1073,20 +770,20 @@ fastd</div>
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/29/linux/docker/docker-lian-jie-dockerhub/">
+                <a href="/2019/04/29/linux/docker/shi-yong-docker-yi-jian-da-jian-fastdfs-nginx-fen-bu-shi-wen-jian-fu-wu-qi/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2019/04/29/5cc65ca291f07.jpg" class="responsive-img" alt="Docker连接Dockerhub">
+                        <img src="https://i.loli.net/2019/04/29/5cc65ca291f07.jpg" class="responsive-img" alt="使用Docker一键搭建FastDFS+Nginx分布式文件服务器">
                         
-                        <span class="card-title">Docker连接Dockerhub</span>
+                        <span class="card-title">使用Docker一键搭建FastDFS+Nginx分布式文件服务器</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
-Docker连接Dockerhub
+使用Docker一键搭建FastDFS+Nginx分布式文件服务器
 
 安装docker
-Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 uname -r 命令查看你当前的内核</div>
+Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 una</div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-29
@@ -1112,6 +809,14 @@ Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前�
                     
                     <a href="/tags/Centos7/" target="_blank">
                         <span class="chip bg-color">Centos7</span>
+                    </a>
+                    
+                    <a href="/tags/FastDFS/" target="_blank">
+                        <span class="chip bg-color">FastDFS</span>
+                    </a>
+                    
+                    <a href="/tags/Nginx/" target="_blank">
+                        <span class="chip bg-color">Nginx</span>
                     </a>
                     
                     <a href="/tags/docker/" target="_blank">

@@ -35,6 +35,35 @@
     
     
     <entry>
+      <title>Docker连接Dockerhub</title>
+      <link href="/2019/04/29/linux/docker/docker-lian-jie-dockerhub/"/>
+      <url>/2019/04/29/linux/docker/docker-lian-jie-dockerhub/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>Docker连接Dockerhub</p></blockquote><h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><ol><li>Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker。通过 uname -r 命令查看你当前的内核版本<br><code>$ uname -r</code><br><img src="https://i.loli.net/2019/04/29/5cc6629e1021a.png" alt></li><li>使用 root 权限登录 Centos。确保 yum 包更新到最新。<br><code>$ sudo yum update</code>  </li><li>卸载旧版本(如果安装过旧版本的话)<br><code>$ sudo yum remove docker  docker-common docker-selinux docker-engine</code></li><li>安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的<br><code>$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2</code></li><li>设置yum源<br><code>$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</code>  </li><li>可以查看所有仓库中所有docker版本，并选择特定版本安装<br><code>$ yum list docker-ce --showduplicates | sort -r</code><br><img src="https://i.loli.net/2019/04/29/5cc66577664b1.png" alt></li><li>安装docker<br><code>$ sudo yum install docker-ce  #由于repo中默认只开启stable仓库，故这里安装的是最新稳定版18.09.5</code><br><code>$ sudo yum install &lt;FQPN&gt;  # 例如：sudo yum install docker-ce-18.09.5</code></li><li>启动并加入开机启动<br><code>$ sudo systemctl start docker</code><br><code>$ sudo systemctl enable docker</code></li><li>验证安装是否成功(有client和service两部分表示docker安装启动都成功了)<br><code>docker version</code><br><img src="https://i.loli.net/2019/04/29/5cc666e6ed435.png" alt></li></ol><h2 id="创建镜像"><a href="#创建镜像" class="headerlink" title="创建镜像"></a>创建镜像</h2><p>在这里使用Dockerfile的方式建立一个image。它可以在一个镜像的基础上，去构建另一个镜像。首先我们拉取一个centos的镜像。在这里创建一个简单的打印hello world的镜像。  </p><pre><code>docker pull centos</code></pre><p>然后，在本地创建一个Dockerfile文件，让它在这个centos的基础上去输出一个hello world 。  </p><pre><code>vim Dockerfile</code></pre><p><img src="https://i.loli.net/2019/05/02/5ccac7d1596cd.png" alt></p><p>现在通过docker build生成一个新的镜像，-t可以指定新镜像的名字  . 表示在当前目录下.   </p><pre><code>docker build -t hongguodong/hello-world .</code></pre><p>接下来可以docker images查看本地镜像</p><pre><code>docker images</code></pre><p>最后docker run执行这个镜像，这时候生成一个新容器，我们可以对这个容器进行操作。   </p><pre><code>docker run hongguodong/hello-world</code></pre><p>给镜像打标签<br>修改标签：docker tag IMAGEID(镜像id) REPOSITORY:TAG（仓库：标签）</p><pre><code>docker tag e00a58a30228 hongguodong/hello-world:v1</code></pre><p>（注：上面是给镜像修改tag，下面是给镜像打上标签之后才能对镜像进行push）</p><p>给镜像打tag 标签：</p><p>docker tag <existing-image>  <hub-user>/<repo-name>[:<tag>]  #tag不指定默认为latest</tag></repo-name></hub-user></existing-image></p><p>hub-user是docker hub的账户名</p><p>repo-name就是第一步创建时候的仓库名称</p><p>给镜像打上标签之后才能push</p><h2 id="push镜像"><a href="#push镜像" class="headerlink" title="push镜像"></a>push镜像</h2><p>登录docker hub账号</p><p>使用第一步创建的账号，在本地登录</p><pre><code>docker login</code></pre><p>输入账号密码，输出login success即可</p><p>最后.   </p><pre><code>docker push hongguodong/hello-world:v1</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Centos7 </tag>
+            
+            <tag> docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用Docker一键搭建FastDFS+Nginx分布式文件服务器</title>
       <link href="/2019/04/29/linux/docker/shi-yong-docker-yi-jian-da-jian-fastdfs-nginx-fen-bu-shi-wen-jian-fu-wu-qi/"/>
       <url>/2019/04/29/linux/docker/shi-yong-docker-yi-jian-da-jian-fastdfs-nginx-fen-bu-shi-wen-jian-fu-wu-qi/</url>
