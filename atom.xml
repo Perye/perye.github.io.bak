@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://perye.github.io/"/>
-  <updated>2019-04-30T16:29:27.000Z</updated>
+  <updated>2019-06-13T13:08:16.000Z</updated>
   <id>https://perye.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>计算机操作系统</title>
+    <link href="https://perye.github.io/2019/06/13/note/ji-suan-ji-cao-zuo-xi-tong/"/>
+    <id>https://perye.github.io/2019/06/13/note/ji-suan-ji-cao-zuo-xi-tong/</id>
+    <published>2019-06-13T12:53:12.000Z</published>
+    <updated>2019-06-13T13:08:16.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;计算机操作系统&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;基本特征&quot;&gt;&lt;a href=&quot;#基本特征&quot; class=&quot;headerlink&quot; title=&quot;基本特征&quot;&gt;&lt;/a&gt;基本特征&lt;/h2&gt;&lt;h3 id=&quot;1-并发&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="note" scheme="https://perye.github.io/categories/note/"/>
+    
+    
+      <category term="计算机操作系统" scheme="https://perye.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+  </entry>
   
   <entry>
     <title>搭建FastDFS+Nginx文件服务器</title>
